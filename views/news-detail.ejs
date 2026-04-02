@@ -1,0 +1,39 @@
+<%- include('partials/header') %>
+
+<div class="container py-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/news" class="text-decoration-none text-muted">Tin tức</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Chi tiết</li>
+                </ol>
+            </nav>
+
+            <h1 class="fw-bold font-heading mb-3"><%= news.title %></h1>
+            
+            <div class="d-flex align-items-center mb-4 text-muted small">
+                <i class="bi bi-calendar3 me-2"></i> <%= new Date(news.createdAt).toLocaleDateString('vi-VN') %>
+                <span class="mx-2">|</span>
+                <i class="bi bi-person-circle me-2"></i> <%= news.author %>
+            </div>
+
+            <img src="<%= news.image %>" class="w-100 rounded-4 mb-5 shadow-sm" alt="<%= news.title %>">
+
+            <div class="content lh-lg">
+                <%- news.content %>
+            </div>
+
+            <hr class="my-5">
+
+            <div class="text-center">
+                <a href="/news" class="btn btn-outline-dark rounded-pill px-4">
+                    <i class="bi bi-arrow-left me-2"></i> Quay lại danh sách tin
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

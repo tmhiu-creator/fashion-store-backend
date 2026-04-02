@@ -1,0 +1,249 @@
+<%- include('partials/header.ejs') %>
+
+    <link rel="stylesheet" href="/css/checkout.css">
+
+    <div class="bg-light py-4">
+        <div class="container">
+            <h2 class="fw-bold mb-4 font-heading text-center">Thanh Toán</h2>
+
+            <form id="checkoutForm" action="/order" method="POST">
+                <div class="row g-5">
+                    <div class="col-lg-7">
+                        <div class="card border-0 shadow-sm rounded-3 mb-4">
+                            <div class="card-header bg-white py-3">
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-geo-alt me-2 text-primary"></i>Thông tin giao
+                                    hàng</h5>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small fw-bold">Họ và tên</label>
+                                    <input type="text" name="fullname" class="form-control py-3 bg-light border-0"
+                                        placeholder="Nhập họ tên người nhận" value="<%= user ? user.fullname : '' %>"
+                                        required>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label text-muted small fw-bold">Email</label>
+                                        <input type="email" name="email" class="form-control py-3 bg-light border-0"
+                                            placeholder="email@example.com" value="<%= user ? user.email : '' %>"
+                                            required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label text-muted small fw-bold">Số điện thoại</label>
+                                        <input type="tel" name="phone" class="form-control py-3 bg-light border-0"
+                                            placeholder="09xxx..." value="<%= user ? user.phone : '' %>" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small fw-bold">Tỉnh / Thành phố</label>
+                                    <select name="city" id="city-select" class="form-select py-3 bg-light border-0"
+                                        required>
+                                        <option value="" selected disabled>-- Chọn Tỉnh / Thành --</option>
+                                        <option value="hcm">TP. Hồ Chí Minh</option>
+                                        <option value="hanoi">Hà Nội</option>
+                                        <option value="danang">Đà Nẵng</option>
+                                        <option value="other">Tỉnh thành khác...</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small fw-bold">Địa chỉ chi tiết</label>
+                                    <textarea name="address" class="form-control bg-light border-0" rows="2"
+                                        placeholder="Số nhà, tên đường, phường/xã..."
+                                        required><%= user ? user.address : '' %></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small fw-bold">Ghi chú (Tùy chọn)</label>
+                                    <textarea name="note" class="form-control bg-light border-0" rows="2"
+                                        placeholder="Ví dụ: Giao hàng giờ hành chính..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card border-0 shadow-sm rounded-3 mb-4">
+                            <div class="card-header bg-white py-3">
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-truck me-2 text-warning"></i>Phương thức vận
+                                    chuyển</h5>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="form-check p-3 border rounded mb-2 shipping-option">
+                                    <input class="form-check-input mt-1" type="radio" name="shippingMethod"
+                                        id="shipStandard" value="standard" checked>
+                                    <label class="form-check-label d-flex justify-content-between w-100"
+                                        for="shipStandard">
+                                        <span>
+                                            <span class="fw-bold d-block">Giao Hàng Tiêu Chuẩn</span>
+                                            <small class="text-muted">3-5 ngày làm việc</small>
+                                        </span>
+                                        <span class="fw-bold text-dark" id="price-standard">--</span>
+                                    </label>
+                                </div>
+
+                                <div class="form-check p-3 border rounded mb-2 shipping-option">
+                                    <input class="form-check-input mt-1" type="radio" name="shippingMethod"
+                                        id="shipFast" value="fast">
+                                    <label class="form-check-label d-flex justify-content-between w-100" for="shipFast">
+                                        <span>
+                                            <span class="fw-bold d-block">Giao Nhanh (Fast)</span>
+                                            <small class="text-muted">1-2 ngày làm việc</small>
+                                        </span>
+                                        <span class="fw-bold text-dark" id="price-fast">--</span>
+                                    </label>
+                                </div>
+
+                                <div class="form-check p-3 border rounded shipping-option" id="ship-instant-container"
+                                    style="display:none;">
+                                    <input class="form-check-input mt-1" type="radio" name="shippingMethod"
+                                        id="shipInstant" value="instant">
+                                    <label class="form-check-label d-flex justify-content-between w-100"
+                                        for="shipInstant">
+                                        <span>
+                                            <span class="fw-bold d-block text-danger">Giao Hỏa Tốc 2H <i
+                                                    class="bi bi-lightning-fill"></i></span>
+                                            <small class="text-muted">Nhận hàng ngay trong ngày</small>
+                                        </span>
+                                        <span class="fw-bold text-danger" id="price-instant">--</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card border-0 shadow-sm rounded-3">
+                            <div class="card-header bg-white py-3">
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-credit-card me-2 text-success"></i>Phương thức
+                                    thanh toán</h5>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="form-check p-3 border rounded mb-2 payment-option selected-payment">
+                                    <input class="form-check-input mt-1" type="radio" name="paymentMethod" id="payCOD"
+                                        value="cod" checked>
+                                    <label class="form-check-label w-100 cursor-pointer" for="payCOD">
+                                        <span class="fw-bold d-block">Thanh toán khi nhận hàng (COD)</span>
+                                        <small class="text-muted">Thanh toán tiền mặt cho shipper khi nhận được
+                                            hàng.</small>
+                                    </label>
+                                </div>
+
+                                <div class="form-check p-3 border rounded payment-option">
+                                    <input class="form-check-input mt-1" type="radio" name="paymentMethod"
+                                        id="payOnline" value="online">
+                                    <label class="form-check-label w-100 cursor-pointer" for="payOnline">
+                                        <span class="fw-bold d-block">Chuyển khoản Ngân hàng / QR Code</span>
+                                        <small class="text-muted">Quét mã QR qua App ngân hàng (MB Bank,
+                                            Vietcombank...)</small>
+                                        <div class="mt-2">
+                                            <img src="https://img.vietqr.io/image/MB-4723042006-compact.png" height="30"
+                                                alt="Icon Bank">
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="card border-0 shadow-sm rounded-3 sticky-top" style="top: 100px; z-index: 1;">
+                            <div class="card-header bg-white py-3">
+                                <h5 class="mb-0 fw-bold"><i class="bi bi-bag-check me-2 text-primary"></i>Đơn hàng của
+                                    bạn</h5>
+                            </div>
+                            <div class="card-body p-4">
+                                <div id="order-summary-body" class="mb-4 border-bottom pb-3">
+                                </div>
+
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Tạm tính</span>
+                                    <span class="fw-bold" id="checkout-subtotal">0 đ</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-4 border-bottom pb-4">
+                                    <span class="text-muted">Phí vận chuyển</span>
+                                    <span class="text-success small fw-bold" id="shipping-fee-display">--</span>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <span class="h5 fw-bold text-dark m-0">Tổng cộng</span>
+                                    <span class="h4 fw-bold text-primary m-0" id="checkout-total">0 đ</span>
+                                </div>
+
+                                <input type="hidden" name="totalMoney" id="input-total">
+                                <input type="hidden" name="shippingFee" id="input-shipping-fee">
+                                <input type="hidden" name="cartData" id="cart-data">
+
+                                <button type="button" id="btn-place-order"
+                                    class="btn btn-dark w-100 py-3 rounded-pill fw-bold text-uppercase shadow transition-btn">
+                                    Đặt Hàng Ngay
+                                </button>
+
+                                <a href="/cart" class="btn btn-link w-100 text-decoration-none text-muted mt-2">Quay lại
+                                    giỏ hàng</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="qrModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-primary mx-auto">Thanh Toán Qua Mã QR</h5>
+                </div>
+                <div class="modal-body text-center pt-0">
+
+                    <div class="alert alert-danger d-inline-block py-1 px-3 mt-3 rounded-pill">
+                        Hết hạn trong: <span id="countdown-timer" class="fw-bold">10:00</span>
+                    </div>
+
+                    <p class="text-muted small mb-3">Vui lòng quét mã và chờ hệ thống xác nhận tự động.</p>
+
+                    <div class="qr-container p-3 border rounded-3 bg-light d-inline-block mb-3 position-relative">
+                        <img id="vietqr-img" src="" alt="QR Code" class="img-fluid" style="max-width: 250px;">
+                    </div>
+
+                    <div class="text-start bg-light p-3 rounded-3 mb-3 small">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Ngân hàng:</span>
+                            <span class="fw-bold">MB Bank</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Chủ tài khoản:</span>
+                            <span class="fw-bold text-uppercase">TRINH MINH HIEU</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Số tài khoản:</span>
+                            <span class="fw-bold text-primary fs-6 copy-text">4723042006</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Số tiền:</span>
+                            <span class="fw-bold text-danger fs-6" id="qr-amount">0 đ</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Nội dung:</span>
+                            <span class="fw-bold text-dark fs-6" id="qr-content">--</span>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-outline-secondary" onclick="cancelPayment()">
+                            Hủy thanh toán
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const USER_ID = "<%= (user && user._id) ? user._id : '' %>";
+    </script>
+
+    <script src="/js/checkout-core.js"></script>
+    <script src="/js/checkout-payment.js"></script>
+    <script src="/js/checkout-main.js"></script>
+
+    <%- include('partials/footer.ejs') %>

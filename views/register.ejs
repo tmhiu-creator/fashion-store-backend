@@ -1,0 +1,44 @@
+<%- include('./partials/header.ejs') %>
+
+<div class="d-flex align-items-center justify-content-center min-vh-100 bg-light py-5">
+    <div class="card border-0 shadow-lg" style="max-width: 500px; width: 100%; border-radius: 20px;">
+        <div class="card-body p-5">
+            <div class="text-center mb-4">
+                <h3 class="fw-bold font-heading">TẠO TÀI KHOẢN</h3>
+                <p class="text-muted small">Tham gia cộng đồng H-Fashion ngay hôm nay</p>
+            </div>
+
+            <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+                <div class="alert alert-danger text-center rounded-3 mb-4 small">
+                    <%= errorMessage %>
+                </div>
+            <% } %>
+
+            <form action="/register" method="POST">
+                <div class="mb-3">
+                    <input type="text" name="fullname" class="form-control py-3 bg-light border-0" placeholder="Họ và tên" required>
+                </div>
+                <div class="mb-3">
+                    <input type="email" name="email" class="form-control py-3 bg-light border-0" placeholder="Địa chỉ Email" required>
+                </div>
+                <div class="mb-3">
+                    <input type="tel" name="phone" class="form-control py-3 bg-light border-0" placeholder="Số điện thoại" required>
+                </div>
+                <div class="mb-3">
+                    <input type="password" name="password" class="form-control py-3 bg-light border-0" placeholder="Mật khẩu" required>
+                </div>
+                <div class="mb-4">
+                    <input type="password" name="confirmPassword" class="form-control py-3 bg-light border-0" placeholder="Nhập lại mật khẩu" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm">ĐĂNG KÝ</button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="text-muted small">Đã có tài khoản? <a href="/login" class="fw-bold text-decoration-none">Đăng nhập</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('./partials/footer.ejs') %>

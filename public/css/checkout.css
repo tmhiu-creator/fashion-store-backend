@@ -1,0 +1,47 @@
+/* Style riêng cho trang Checkout */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.payment-option,
+.shipping-option {
+    transition: all 0.2s ease-in-out;
+}
+
+.payment-option:hover,
+.shipping-option:hover {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+/* Hiệu ứng khi radio button được chọn */
+.form-check-input:checked+label {
+    color: #0d6efd;
+}
+
+.selected-payment {
+    border-color: #0d6efd !important;
+    background-color: #f0f7ff !important;
+}
+
+#order-summary-body {
+    max-height: 300px;
+    overflow-y: auto;
+    /* Tùy chỉnh thanh cuộn cho đẹp */
+    scrollbar-width: thin;
+    scrollbar-color: #ccc #f1f1f1;
+}
+
+#order-summary-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+#order-summary-body::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+}
+
+.transition-btn:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s;
+}

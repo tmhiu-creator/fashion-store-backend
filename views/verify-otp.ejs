@@ -1,0 +1,43 @@
+<%- include('partials/header.ejs') %>
+
+<div class="d-flex align-items-center justify-content-center min-vh-100 bg-light py-5">
+    <div class="card border-0 shadow-lg" style="max-width: 450px; width: 100%; border-radius: 20px;">
+        <div class="card-body p-5 text-center">
+            
+            <div class="mb-4 text-primary">
+                <i class="bi bi-envelope-check display-1"></i>
+            </div>
+
+            <h3 class="fw-bold mb-3">XÁC THỰC EMAIL</h3>
+            <p class="text-muted mb-4 small">
+                Mã OTP 6 số đã được gửi đến: <br>
+                <strong class="text-dark"><%= email %></strong>
+            </p>
+
+            <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+                <div class="alert alert-danger rounded-3 mb-3 small">
+                    <%= errorMessage %>
+                </div>
+            <% } %>
+
+            <form action="/verify-otp" method="POST">
+                <div class="mb-4">
+                    <input type="text" name="otp" 
+                           class="form-control form-control-lg text-center fw-bold fs-2 border-2" 
+                           maxlength="6" placeholder="000000" 
+                           style="letter-spacing: 5px;" required autofocus>
+                </div>
+                
+                <button type="submit" class="btn btn-dark w-100 py-3 rounded-pill fw-bold shadow-sm text-uppercase">
+                    Xác nhận
+                </button>
+            </form>
+
+            <div class="mt-4 pt-3 border-top">
+                <small class="text-muted">Nhập sai email? <a href="/register" class="fw-bold text-decoration-none">Đăng ký lại</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer.ejs') %>

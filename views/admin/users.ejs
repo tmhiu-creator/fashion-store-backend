@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+
+<div class="container-fluid p-0">
+    <div class="row g-0">
+        <%- include('partials/sidebar') %>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-0 bg-light min-vh-100">
+            <%- include('partials/navbar') %>
+
+            <div class="px-4 pt-4 pb-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0 text-dark">Quản Lý Tài Khoản</h4>
+                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-sm">
+                        Tổng cộng: <%= users.length %> tài khoản
+                    </span>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                    <div class="card-body p-0">
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0 text-nowrap">
+                                <thead class="bg-light text-secondary text-uppercase small fw-bold">
+                                    <tr>
+                                        <th class="py-3 ps-4">Khách hàng</th>
+                                        <th class="py-3">Liên hệ</th>
+                                        <th class="py-3 text-center">Vai trò</th>
+                                        <th class="py-3 text-center">Ngày tham gia</th>
+                                        <th class="py-3 text-center">Trạng thái</th>
+                                        <th class="py-3 text-end pe-4">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% users.forEach(u => { %>
+                                        <tr>
+                                            <td class="ps-4 py-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                                        <span class="fw-bold"><%= u.fullname ? u.fullname.charAt(0).toUpperCase() : 'U' %></span>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-0 fw-bold text-dark"><%= u.fullname || 'Chưa cập nhật' %></h6>
+                                                        <small class="text-muted">@<%= u.username %></small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-column small">
+                                                    <span class="text-dark"><i class="bi bi-envelope me-1"></i> <%= u.email %></span>
+                                                    <span class="text-muted"><i class="bi bi-telephone me-1"></i> <%= u.phone || '---' %></span>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <% if (u.role === 'admin') { %>
+                                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25">Quản trị viên</span>
+                                                <% } else { %>
+                                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25">Khách hàng</span>
+                                                <% } %>
+                                            </td>
+                                            <td class="text-center text-muted small">
+                                                <%= new Date(u.createdAt).toLocaleDateString('vi-VN') %>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="badge bg-success rounded-pill"><i class="bi bi-check-circle-fill me-1"></i> Hoạt động</span>
+                                            </td>
+                                            <td class="text-end pe-4">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-sm btn-light border dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown">
+                                                        <i class="bi bi-gear-fill me-1"></i> Xử lý
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
+                                                        <li><a class="dropdown-item py-2" href="#"><i class="bi bi-pencil me-2"></i> Sửa thông tin</a></li>
+                                                        <li><a class="dropdown-item py-2" href="#"><i class="bi bi-lock me-2"></i> Đổi mật khẩu</a></li>
+                                                        <li><hr class="dropdown-divider"></li>
+                                                        <li><a class="dropdown-item py-2 text-danger" href="/admin/user/delete/<%= u._id %>" onclick="return confirm('Xóa user này?')"><i class="bi bi-trash me-2"></i> Xóa tài khoản</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+:root {
+    --sidebar-bg: #000000;
+    --text-color: #374151;
+    --primary-color: #059669;
+    --border-color: #e5e7eb;
+    --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3f4f6;
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: var(--sidebar-bg) !important;
+    min-height: 100vh;
+}
+
+.sidebar .nav-link {
+    font-weight: 500;
+    color: #d1d5db;
+    padding: 12px 1.25rem;
+    border-radius: 8px;
+    margin: 4px 12px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.sidebar .nav-link:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .nav-link.active {
+    color: #ffffff !important;
+    background-color: #0d6efd !important;
+    font-weight: 600;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Thống kê */
+.stats-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--shadow-medium);
+    transition: transform 0.3s ease;
+    background: white;
+    border-left-width: 5px !important;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+}
+
+.icon-box {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}

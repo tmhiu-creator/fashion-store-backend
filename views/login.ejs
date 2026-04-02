@@ -1,0 +1,43 @@
+<%- include('./partials/header.ejs') %>
+
+<div class="d-flex align-items-center justify-content-center min-vh-100 bg-light py-5">
+    <div class="card border-0 shadow-lg overflow-hidden" style="max-width: 900px; width: 100%; border-radius: 20px;">
+        <div class="row g-0">
+            <div class="col-lg-6 d-none d-lg-block" style="background: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000') center/cover;">
+                <div class="h-100 w-100" style="background: rgba(0,0,0,0.3);"></div>
+            </div>
+
+            <div class="col-lg-6 p-5 bg-white">
+                <div class="text-center mb-5">
+                    <h3 class="fw-bold font-heading">CHÀO MỪNG TRỞ LẠI</h3>
+                    <p class="text-muted small">Đăng nhập để tiếp tục mua sắm</p>
+                </div>
+
+                <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+                    <div class="alert alert-danger text-center rounded-pill mb-4" role="alert">
+                        <i class="bi bi-exclamation-circle me-2"></i> <%= errorMessage %>
+                    </div>
+                <% } %>
+
+                <form action="/login" method="POST">
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-muted">EMAIL HOẶC TÊN ĐĂNG NHẬP</label>
+                        <input type="text" name="email" class="form-control form-control-lg fs-6 bg-light border-0" placeholder="Nhập email..." required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-muted">MẬT KHẨU</label>
+                        <input type="password" name="password" class="form-control form-control-lg fs-6 bg-light border-0" placeholder="Nhập mật khẩu..." required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-dark w-100 py-3 rounded-pill fw-bold mb-4 shadow-sm">ĐĂNG NHẬP</button>
+                </form>
+
+                <div class="text-center">
+                    <p class="text-muted small mb-0">Chưa có tài khoản? <a href="/register" class="fw-bold text-primary text-decoration-none">Đăng ký ngay</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('./partials/footer.ejs') %>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+
+<div class="container-fluid p-0">
+    <div class="row g-0">
+        <%- include('partials/sidebar') %>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-0 bg-light min-vh-100">
+            <%- include('partials/navbar') %>
+
+            <div class="px-4 pt-4 pb-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0 text-dark">Quản Lý Đơn Hàng</h4>
+                    <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-sm">
+                        Tổng cộng: <%= orders.length %> đơn
+                    </span>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                    <div class="card-body p-0">
+                        
+                        <div class="table-responsive" style="min-height: 300px;">
+                            <table class="table table-hover align-middle mb-0 text-nowrap">
+                                <thead class="bg-light text-secondary text-uppercase small fw-bold">
+                                    <tr>
+                                        <th class="py-3 ps-4">Mã đơn / Khách hàng</th>
+                                        <th class="py-3">Ngày đặt</th>
+                                        <th class="py-3">Sản phẩm</th>
+                                        <th class="py-3">Tổng tiền</th>
+                                        <th class="py-3 text-center">Trạng thái</th>
+                                        <th class="py-3 text-end pe-4">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (orders.length === 0) { %>
+                                        <tr><td colspan="6" class="text-center py-5 text-muted">Chưa có đơn hàng nào.</td></tr>
+                                    <% } else { %>
+                                        <% orders.forEach(order => { %>
+                                            <tr>
+                                                <td class="ps-4">
+                                                    <div class="d-flex flex-column">
+                                                        <span class="fw-bold text-primary">#<%= order.orderCode || order._id.toString().slice(-6).toUpperCase() %></span>
+                                                        <small class="text-dark fw-bold"><%= order.fullname %></small>
+                                                        <small class="text-muted" style="font-size: 0.75rem;"><%= order.phone %></small>
+                                                    </div>
+                                                </td>
+                                                <td class="text-muted small">
+                                                    <%= new Date(order.createdAt).toLocaleDateString('vi-VN') %>
+                                                    <br>
+                                                    <%= new Date(order.createdAt).toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'}) %>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-light text-dark border">
+                                                        <%= order.items ? order.items.length : 0 %> sản phẩm
+                                                    </span>
+                                                </td>
+                                                
+                                                <td class="fw-bold text-danger">
+                                                    <%= (order.totalMoney || order.totalPrice || 0).toLocaleString('vi-VN') %> đ
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <% 
+                                                        let badgeClass = 'bg-secondary';
+                                                        let statusText = order.status;
+
+                                                        // Mapping trạng thái (Hỗ trợ cả tiếng Anh và tiếng Việt)
+                                                        if (['pending', 'Chờ xác nhận', 'Chờ thanh toán'].includes(order.status)) { 
+                                                            statusText = 'Chờ xử lý'; badgeClass = 'bg-warning text-dark'; 
+                                                        }
+                                                        else if (['processing', 'Đang chuẩn bị'].includes(order.status)) { 
+                                                            statusText = 'Đang chuẩn bị'; badgeClass = 'bg-primary'; 
+                                                        }
+                                                        else if (['shipping', 'Đang giao', 'Đang giao hàng'].includes(order.status)) { 
+                                                            statusText = 'Đang giao'; badgeClass = 'bg-info text-dark'; 
+                                                        }
+                                                        else if (['completed', 'Hoàn thành'].includes(order.status)) { 
+                                                            statusText = 'Hoàn thành'; badgeClass = 'bg-success'; 
+                                                        }
+                                                        else if (['cancelled', 'Đã hủy'].includes(order.status)) { 
+                                                            statusText = 'Đã hủy'; badgeClass = 'bg-danger'; 
+                                                        }
+                                                    %>
+                                                    <span class="badge <%= badgeClass %> py-2 px-3 rounded-pill"><%= statusText %></span>
+                                                    
+                                                    <% if(order.paymentMethod === 'online' || order.paymentMethod === 'banking') { %>
+                                                        <div class="mt-1">
+                                                            <% if(order.paymentStatus === 'paid') { %>
+                                                            <% } else { %>
+                                                                <small class="text-warning fw-bold" style="font-size: 0.65rem;"><i class="bi bi-hourglass-split"></i> Chờ tiền về</small>
+                                                            <% } %>
+                                                        </div>
+                                                    <% } else { %>
+                                                        <div class="mt-1"><small class="text-muted" style="font-size: 0.65rem;">COD</small></div>
+                                                    <% } %>
+                                                </td>
+                                                
+                                                <td class="text-end pe-4">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-sm btn-dark dropdown-toggle fw-bold shadow-sm" type="button" data-bs-toggle="dropdown" data-bs-boundary="viewport">
+                                                            <i class="bi bi-gear-fill me-1"></i> Xử lý
+                                                        </button>
+                                                        
+                                                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow p-2" style="min-width: 200px;">
+                                                            <li><h6 class="dropdown-header text-uppercase small fw-bold">Cập nhật trạng thái</h6></li>
+                                                            
+                                                            <li>
+                                                                <form action="/admin/order/update-status" method="POST">
+                                                                    <input type="hidden" name="orderId" value="<%= order._id %>">
+                                                                    <input type="hidden" name="status" value="shipping">
+                                                                    <button class="dropdown-item rounded py-2 d-flex align-items-center" type="submit">
+                                                                        <i class="bi bi-truck text-primary me-2"></i> Đang giao hàng
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+
+                                                            <li>
+                                                                <form action="/admin/order/update-status" method="POST">
+                                                                    <input type="hidden" name="orderId" value="<%= order._id %>">
+                                                                    <input type="hidden" name="status" value="completed">
+                                                                    <button class="dropdown-item rounded py-2 d-flex align-items-center" type="submit">
+                                                                        <i class="bi bi-check-circle-fill text-success me-2"></i> Hoàn thành
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+
+                                                            <li>
+                                                                <form action="/admin/order/update-status" method="POST">
+                                                                    <input type="hidden" name="orderId" value="<%= order._id %>">
+                                                                    <input type="hidden" name="status" value="cancelled">
+                                                                    <button class="dropdown-item rounded py-2 d-flex align-items-center text-warning" type="submit" onclick="return confirm('Bạn chắc chắn muốn hủy đơn này?')">
+                                                                        <i class="bi bi-x-circle-fill me-2"></i> Hủy đơn hàng
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+
+                                                            <li><hr class="dropdown-divider"></li>
+
+                                                            <li>
+                                                                <form action="/admin/order/delete" method="POST">
+                                                                    <input type="hidden" name="orderId" value="<%= order._id %>">
+                                                                    <button class="dropdown-item rounded py-2 d-flex align-items-center text-danger fw-bold" type="submit" onclick="return confirm('CẢNH BÁO: Xóa đơn hàng sẽ mất vĩnh viễn. Bạn có chắc không?')">
+                                                                        <i class="bi bi-trash-fill me-2"></i> Xóa đơn hàng
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <% }) %>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

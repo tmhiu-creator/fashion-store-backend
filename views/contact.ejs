@@ -1,0 +1,76 @@
+<%- include('partials/header') %>
+
+<div class="container py-5 mb-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold font-heading">Liên Hệ Với Chúng Tôi</h2>
+        <p class="text-muted">Chúng tôi luôn sẵn sàng lắng nghe bạn</p>
+    </div>
+
+    <div class="row g-5">
+        <div class="col-md-5">
+            <div class="p-4 bg-light rounded-4 h-100">
+                <h4 class="fw-bold mb-4">Thông tin liên lạc</h4>
+                
+                <div class="d-flex mb-4">
+                    <div class="bg-white p-3 rounded-circle shadow-sm me-3" style="width: 50px; height: 50px; display:flex; align-items:center; justify-content:center;">
+                        <i class="bi bi-geo-alt-fill text-primary fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Địa chỉ</h6>
+                        <p class="text-muted small m-0"><%= settings.storeAddress || 'Đang cập nhật...' %></p>
+                    </div>
+                </div>
+
+                <div class="d-flex mb-4">
+                    <div class="bg-white p-3 rounded-circle shadow-sm me-3" style="width: 50px; height: 50px; display:flex; align-items:center; justify-content:center;">
+                        <i class="bi bi-telephone-fill text-success fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Hotline</h6>
+                        <p class="text-muted small m-0"><%= settings.storePhone || 'Đang cập nhật...' %></p>
+                    </div>
+                </div>
+
+                <div class="d-flex">
+                    <div class="bg-white p-3 rounded-circle shadow-sm me-3" style="width: 50px; height: 50px; display:flex; align-items:center; justify-content:center;">
+                        <i class="bi bi-envelope-fill text-danger fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Email</h6>
+                        <p class="text-muted small m-0"><%= settings.storeEmail || 'Đang cập nhật...' %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <% if (typeof successMessage !== 'undefined') { %>
+                <div class="alert alert-success rounded-3 mb-4">
+                    <%= successMessage %>
+                </div>
+            <% } %>
+
+            <form action="/contact" method="POST" class="p-4 border rounded-4 shadow-sm">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Họ tên</label>
+                        <input type="text" name="name" class="form-control bg-light border-0 py-3" required placeholder="Nhập tên của bạn">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Email</label>
+                        <input type="email" name="email" class="form-control bg-light border-0 py-3" required placeholder="email@example.com">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-bold small">Nội dung tin nhắn</label>
+                        <textarea name="message" rows="5" class="form-control bg-light border-0" required placeholder="Bạn cần hỗ trợ gì?"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-dark w-100 py-3 fw-bold rounded-pill">GỬI TIN NHẮN</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

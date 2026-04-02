@@ -1,0 +1,72 @@
+<%- include('partials/header') %>
+
+<link rel="stylesheet" href="/css/cart.css">
+
+<div class="bg-light min-vh-100 py-4">
+    <div class="container">
+        <h2 class="fw-bold mb-4 font-heading text-center">Giỏ Hàng Của Bạn</h2>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+                    <div class="card-body p-0">
+                        <div class="d-none d-lg-flex bg-light py-3 px-4 fw-bold text-muted small border-bottom">
+                            <div class="col-6">Sản phẩm</div>
+                            <div class="col-2 text-center">Đơn giá</div>
+                            <div class="col-2 text-center">Số lượng</div>
+                            <div class="col-2 text-end">Thành tiền</div>
+                        </div>
+
+                        <div id="cart-container"></div>
+
+                        <div class="text-center py-5 d-none" id="empty-cart-msg">
+                            <i class="bi bi-cart-x fs-1 text-muted"></i>
+                            <p class="text-muted mt-2">Giỏ hàng của bạn đang trống</p>
+                            <a href="/" class="btn btn-dark rounded-pill px-4 mt-2">Mua sắm ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-3 sticky-top" style="top: 100px; z-index: 1;">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-4">Cộng Giỏ Hàng</h5>
+                        
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="text-muted">Tạm tính:</span>
+                            <span class="fw-bold" id="cart-subtotal">0 đ</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4 pb-3 border-bottom">
+                            <span class="text-muted">Phí vận chuyển:</span>
+                            <span class="text-success small fw-bold"><i class="bi bi-check-circle-fill"></i> Miễn phí</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <span class="h5 fw-bold text-dark m-0">Tổng cộng:</span>
+                            <span class="h4 fw-bold text-primary m-0" id="cart-total">0 đ</span>
+                        </div>
+
+                        <button onclick="window.location.href='/checkout'" class="btn btn-dark w-100 py-3 rounded-pill fw-bold text-uppercase shadow hover-top transition-btn">
+                            Tiến hành thanh toán
+                        </button>
+
+                        <div class="text-center mt-3">
+                            <a href="/" class="text-decoration-none text-muted small hover-underline">
+                                <i class="bi bi-arrow-left me-1"></i> Mua thêm sản phẩm khác
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const USER_ID = "<%= (locals.user && locals.user._id) ? locals.user._id : '' %>";
+</script>
+
+<script src="/js/cart.js"></script>
+
+<%- include('partials/footer') %>

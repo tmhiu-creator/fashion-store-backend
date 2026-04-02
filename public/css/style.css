@@ -1,0 +1,150 @@
+/* --- CHUNG --- */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary: #0d6efd;
+    --dark: #111;
+    --light: #f8f9fa;
+    --accent: #c9a55c;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--dark);
+}
+
+/* --- HEADER MỚI --- */
+.navbar-brand img {
+    max-height: 45px;
+    object-fit: contain;
+}
+
+.nav-link {
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary) !important;
+}
+
+.search-bar input {
+    transition: all 0.3s;
+}
+
+.search-bar input:focus {
+    box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
+}
+
+.badge-noti {
+    font-size: 0.65rem;
+    padding: 0.25em 0.4em;
+}
+
+/* --- FOOTER MỚI --- */
+.footer-wrapper {
+    background: #111;
+    color: #b0b0b0;
+    padding-top: 60px;
+    margin-top: 80px;
+}
+
+.widget-title {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: #b0b0b0;
+    text-decoration: none;
+    transition: 0.3s;
+    display: block;
+}
+
+.footer-links a:hover {
+    color: #fff;
+    transform: translateX(5px);
+}
+
+.contact-list li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: start;
+    gap: 10px;
+}
+
+.map-box iframe {
+    border-radius: 8px;
+    filter: grayscale(100%);
+    transition: 0.3s;
+}
+
+.map-box iframe:hover {
+    filter: grayscale(0%);
+}
+
+/* Social Icons */
+.social-icons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.social-link:hover {
+    transform: translateY(-3px);
+    color: #fff;
+}
+
+.social-link.fb:hover {
+    background: #1877f2;
+}
+
+.social-link.insta:hover {
+    background: #e4405f;
+}
+
+.social-link.google:hover {
+    background: #dd4b39;
+}
+
+.social-link.x:hover {
+    background: #000;
+    border: 1px solid #333;
+}
+
+/* Copyright */
+.copyright-bar {
+    border-top: 1px solid #222;
+    padding: 20px 0;
+    margin-top: 40px;
+    background: #000;
+}
+
+.payment-icons {
+    font-size: 1.5rem;
+    color: #fff;
+    display: flex;
+    gap: 15px;
+}

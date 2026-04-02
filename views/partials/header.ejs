@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'H-Fashion Store' %></title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script>
+        const CURRENT_USER_ID = "<%= (locals.user && locals.user._id) ? locals.user._id : '' %>";
+    </script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3">
+    <div class="container">
+        <a class="navbar-brand me-4" href="/">
+            <img src="/images/logo.png" alt="H-Fashion" height="40px" onerror="this.src='https://placehold.co/120x40?text=H-Fashion'">
+        </a>
+
+        <div class="d-flex align-items-center d-lg-none ms-auto me-3">
+             <a href="/cart" class="position-relative text-dark">
+                <i class="bi bi-cart3 fs-4"></i>
+                <span id="mobile-cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">0</span>
+            </a>
+        </div>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-bold text-uppercase small mt-3 mt-lg-0">
+                <li class="nav-item"><a class="nav-link px-3" href="/">Trang chủ</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle px-3" href="#" data-bs-toggle="dropdown">Sản phẩm</a>
+                    <ul class="dropdown-menu border-0 shadow mt-2">
+                        <li><a class="dropdown-item py-2" href="/?category=cat_nam">Thời trang Nam</a></li>
+                        <li><a class="dropdown-item py-2" href="/?category=cat_nu">Thời trang Nữ</a></li>
+                        <li><a class="dropdown-item py-2" href="/?category=cat_kid">Trẻ Em</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item py-2" href="/?category=cat_watch">Đồng Hồ</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link px-3" href="/news">Tin tức</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="/contact">Liên hệ</a></li>
+            </ul>
+
+            <div class="search-bar me-3 position-relative d-none d-lg-block">
+                <i class="bi bi-search position-absolute text-muted" style="top: 50%; left: 15px; transform: translateY(-50%);"></i>
+                <form action="/" method="GET">
+                    <input class="form-control rounded-pill ps-5 bg-light border-0" type="text" name="keyword" 
+                           value="<%= typeof currentKeyword !== 'undefined' ? currentKeyword : '' %>" 
+                           placeholder="Tìm sản phẩm..." style="width: 250px;">
+                </form>
+            </div>
+
+            <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0 border-top border-lg-0 pt-3 pt-lg-0">
+                <% if (!locals.user) { %>
+                    <a href="/login" class="btn btn-outline-dark rounded-pill px-4 fw-bold w-100 w-lg-auto">Đăng nhập</a>
+                <% } else { %>
+                    <div class="dropdown w-100 w-lg-auto">
+                        <a class="d-flex align-items-center text-decoration-none dropdown-toggle text-dark fw-bold p-2 p-lg-0 rounded" href="#" data-bs-toggle="dropdown">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 35px; height: 35px;">
+                                <span class="fw-bold"><%= user.fullname ? user.fullname.charAt(0).toUpperCase() : 'U' %></span>
+                            </div>
+                            <span><%= user.fullname %></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow mt-2 w-100">
+                            <li><a class="dropdown-item py-2" href="/profile"><i class="bi bi-person-gear me-2"></i> Tài khoản</a></li>
+                            <li><a class="dropdown-item py-2" href="/my-orders"><i class="bi bi-bag-check me-2"></i> Đơn mua</a></li>
+                            <% if (user.role === 'admin') { %>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item py-2 text-primary" href="/admin/dashboard"><i class="bi bi-speedometer2 me-2"></i> Quản trị</a></li>
+                            <% } %>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item py-2 text-danger" href="/logout"><i class="bi bi-box-arrow-right me-2"></i> Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                <% } %>
+
+                <a href="/cart" class="position-relative btn btn-light rounded-circle d-none d-lg-flex align-items-center justify-content-center ms-2" style="width: 45px; height: 45px;">
+                    <i class="bi bi-cart3 fs-5"></i>
+                    <span id="header-cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">0</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container d-lg-none pb-3 pt-2">
+    <form action="/" method="GET" class="position-relative">
+        <i class="bi bi-search position-absolute text-muted" style="top: 50%; left: 15px; transform: translateY(-50%);"></i>
+        <input class="form-control rounded-pill ps-5 bg-light border-0 py-2" type="text" name="keyword" 
+               value="<%= typeof currentKeyword !== 'undefined' ? currentKeyword : '' %>"
+               placeholder="Tìm kiếm sản phẩm...">
+    </form>
+</div>
